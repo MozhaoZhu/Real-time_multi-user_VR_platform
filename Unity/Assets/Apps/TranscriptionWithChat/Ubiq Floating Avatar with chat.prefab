@@ -221,7 +221,7 @@ SpriteRenderer:
   m_Size: {x: 9.98, y: 4.95}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
 --- !u!114 &1501086140125323821
@@ -307,13 +307,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 616342224406364257}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f22322b253043482aa74b5addb43db4c, type: 3}
+  m_Script: {fileID: 11500000, guid: c8b8ec9def8c7415eb06cc5529feaaf9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   backgroundSpriteRenderer: {fileID: 4391908435623314996}
   textMeshPro: {fileID: 8774848502166253907}
-  typingSpeed: 0.1
-  maxWordLimit: 20
+  typingSpeed: 1
+  maxWordLimit: 30
   avatar: {fileID: 2075108970}
 --- !u!1 &2601620906350396101
 GameObject:
@@ -572,7 +572,7 @@ GameObject:
   - component: {fileID: 364904824293907915}
   - component: {fileID: 2066024580524860528}
   - component: {fileID: 7297730747170002197}
-  - component: {fileID: 5807516737208800436}
+  - component: {fileID: 903732172517824030}
   m_Layer: 5
   m_Name: 'Captions '
   m_TagString: Untagged
@@ -663,7 +663,7 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!114 &5807516737208800436
+--- !u!114 &903732172517824030
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -672,11 +672,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 4888170138972769814}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 845edd13d7d51475bb6d1507b8ea935b, type: 3}
+  m_Script: {fileID: 11500000, guid: 79866b2931a584f3a98270318b684e35, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   textMeshPro: {fileID: 2499698658349271502}
-  backgroundImage: {fileID: 0}
+  backgroundImage: {fileID: 2352119492806672382}
   typingSpeed: 0.05
   avatar: {fileID: 2075108970}
 --- !u!1 &7205335004367019014
@@ -958,12 +958,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: dbf672359ab004e74b8530bc7be9f7e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 1645a56cfe52d400597993987a19a413, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 1
-  m_Size: {x: 17.32, y: 4.1}
+  m_Size: {x: 13.02, y: 3.82}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
