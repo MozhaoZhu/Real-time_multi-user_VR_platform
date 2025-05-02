@@ -22,25 +22,27 @@ class SpeechToTextService extends ServiceController {
         this.roomClient.addListener('OnPeerAdded', (peer: { uuid: string }) => {
             this.log('Starting speech-to-text process for peer ' + peer.uuid);
             
-            const whisperScriptPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_whisper_new.py');
+            // const whisperScriptPath = path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_whisper.py');
 
-            const whisperProcess = this.registerChildProcess(
-                peer.uuid,
-                'python3',
-                [
-                    '-u', // unbuffered output
-                    whisperScriptPath,
-                    '--peer', peer.uuid
-                ]
-            );      
+            // const whisperProcess = this.registerChildProcess(
+            //     peer.uuid,
+            //     'python3',
+            //     [
+            //         '-u', // unbuffered output
+            //         whisperScriptPath,
+            //         '--peer', peer.uuid
+            //     ]
+            // );
+
+           
 
 
-            // // // Azure
-            // this.registerChildProcess(peer.uuid, 'python', [
-            //     '-u',
-            //     path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_azure.py'),
-            // ]);
-            // console.log(path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_azure.py'));
+            // Azure
+            this.registerChildProcess(peer.uuid, 'python', [
+                '-u',
+                path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_azure.py'),
+            ]);
+            console.log(path.join(path.dirname(fileURLToPath(import.meta.url)), 'transcribe_azure.py'));
         });
 
         this.roomClient.addListener('OnPeerRemoved', (peer: { uuid: string }) => {

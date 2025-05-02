@@ -4,6 +4,9 @@ import json
 import azure.cognitiveservices.speech as speechsdk
 from azure.cognitiveservices.speech.audio import AudioStreamFormat, AudioConfig
 import argparse
+import time
+import csv
+from datetime import datetime
 
 def recognize_from_stdin(peer):
     speech_config = speechsdk.SpeechConfig(
@@ -11,6 +14,12 @@ def recognize_from_stdin(peer):
         region=os.environ.get("SPEECH_REGION"),
     )
     speech_config.speech_recognition_language = "en-US"
+
+    speech_config.set_property(
+        speechsdk.PropertyId.Speech_SegmentationSilenceTimeoutMs,
+        "2000"  # 2 seconds
+    )
+
     audio_format = AudioStreamFormat(48000, 16, 1)
     custom_push_stream = speechsdk.audio.PushAudioInputStream(stream_format=audio_format)
     audio_config = AudioConfig(stream=custom_push_stream)
@@ -20,15 +29,45 @@ def recognize_from_stdin(peer):
     )
     done = False
 
+    audio_start_time = time.time()
+
+    csv_file = 'latency_log.csv'
+    if not os.path.exists(csv_file):
+        with open(csv_file, 'w', newline='', encoding='utf-8') as f:
+            writer = csv.writer(f)
+            # ✅ Added a 'type' column
+            writer.writerow(['timestamp', 'peer', 'latency_seconds', 'text', 'type'])
+
+    def recognizing_cb(evt: speechsdk.SpeechRecognitionEventArgs):
+        if evt.result.text:
+            current_time = time.time()
+            latency = current_time - audio_start_time
+            timestamp = datetime.now().isoformat(timespec='seconds')
+            print(f"(partial) > {evt.result.text} (Latency: {latency:.2f}s)")
+            
+            # ✅ Log partial result to CSV
+            with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow([timestamp, peer, f"{latency:.2f}", evt.result.text, 'partial'])
+
     def recognized_cb(evt: speechsdk.SpeechRecognitionEventArgs):
-        print(">{}".format(evt.result.text))
+        if evt.result.text:
+            current_time = time.time()
+            latency = current_time - audio_start_time
+            timestamp = datetime.now().isoformat(timespec='seconds')
+            print(f"> {evt.result.text} (Latency: {latency:.2f}s)")
+            
+            # ✅ Log final result to CSV
+            with open(csv_file, 'a', newline='', encoding='utf-8') as f:
+                writer = csv.writer(f)
+                writer.writerow([timestamp, peer, f"{latency:.2f}", evt.result.text, 'final'])
 
     def stop_cb(evt: speechsdk.SessionEventArgs):
-        """callback that signals to stop continuous recognition"""
         print("CLOSING on {}".format(evt))
         nonlocal done
         done = True
 
+    speech_recognizer.recognizing.connect(recognizing_cb)
     speech_recognizer.recognized.connect(recognized_cb)
     speech_recognizer.session_stopped.connect(stop_cb)
     speech_recognizer.canceled.connect(stop_cb)
@@ -38,12 +77,14 @@ def recognize_from_stdin(peer):
 
     while not done:
         try:
-            data = sys.stdin.buffer.read(8192)
+            data = sys.stdin.buffer.read(4096)
             if len(data) == 0:
                 break
             custom_push_stream.write(data)
         except KeyboardInterrupt:
             break
+
+    speech_recognizer.stop_continuous_recognition_async().get()
 
 def main():
     parser = argparse.ArgumentParser()

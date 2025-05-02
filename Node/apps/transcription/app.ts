@@ -80,8 +80,8 @@ class Transcription extends ApplicationController {
 
                 // Write the transcription to a file
                 const timestamp = new Date().toISOString().replace(/:/g, '-');
-                this.components.writer?.write(timestamp + ',' + identifier + ',' + transcription);
-                this.log('[' + timestamp + '] ' + identifier + ': ' + transcription, 'info', '');
+                this.components.writer?.write(timestamp + ',' + identifier + ',' + transcription.toString() + '\n');
+                this.log('[' + timestamp + '] ' + identifier + ': ' + transcription + '\n', 'info', '');
 
                 // Send the transcription result to the client based on a predefined networkId
                 this.scene.send(new NetworkId(99), {

@@ -1,0 +1,4 @@
+Script started on Fri Apr  4 14:31:32 2025
+/Users/zhumozhao/.zshrc:4: command not found: eva
+[1m[7m%[27m[1m[0m                                                                                                                              [0m[27m[24m[J(base) zhumozhao@eduroam-int-dhcp-97-97-109 FYP % [K[?2004h[?2004l
+[1m[7m%[27m[1m[0m                                                                                                                              [0m[27m[24m[J(base) zhumozhao@eduroam-int-dhcp-97-97-109 FYP % [K[?2004h

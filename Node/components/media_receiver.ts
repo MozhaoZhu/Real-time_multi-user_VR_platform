@@ -129,6 +129,7 @@ export class MediaReceiver extends EventEmitter {
                     case 'audio':
                         let audioSink = new RTCAudioSink(track);
                         audioSink.ondata = (data: RTCAudioData) => {
+                            // console.log(`Received audio from ${component.uuid} with ${data.samples.length} samples`);
                             this.emit('audio', component.uuid, data);
                         };
 
