@@ -1,54 +1,286 @@
-# Welcome to Ubiq-Genie
+# Real-time Multi-User VR Platform using Ubiq-Genie
 
-![Illustrations of two sample demos available in Ubiq-Genie](header.png)
+![Demo Banner](header.png)
 
-Ubiq-Genie is a framework that enables you to build server-assisted collaborative mixed reality applications with Unity using the [Ubiq](https://ubiq.online) framework. This is particularly useful for building multi-user applications that require server-side processing such as generative models, conversational agents, and real-time transcription. For more information, please refer to the [Ubiq-Genie paper](https://ubiq.online/publication/ubiq-genie/).
+A real-time multiplayer VR communication platform built with [Unity](https://unity3d.com/get-unity/download) (version 2022.3.32f1 or later) and [Ubiq-Genie framework](https://github.com/UCL-VR/ubiq-genie), integrating low-latency speech transcription, spatial chat bubbles, and multimodal communication for collaborative VR environments.
+
+This project was developed as part of an MEng Computer Science final-year project at University College London (UCL).
 
 > [!NOTE]
-> Before starting with Ubiq-Genie, we recommend that you familiarize yourself with the Ubiq framework. For more information, see Ubiq's [documentation](https://ucl-vr.github.io/ubiq/) and [website](https://ubiq.online). Ubiq-Genie currently uses Ubiq [v1.0.0-pre7](https://github.com/UCL-VR/ubiq/releases/tag/unity-v1.0.0-pre.7).
+> Ubiq-Genie is a framework that can build server-assisted collaborative mixed reality applications with Unity using the [Ubiq](https://ubiq.online) framework. For more information, please refer to the [Ubiq-Genie paper](https://ubiq.online/publication/ubiq-genie/), Ubiq's [documentation](https://ucl-vr.github.io/ubiq/) and [website](https://ubiq.online). Ubiq-Genie currently uses Ubiq [v1.0.0-pre7](https://github.com/UCL-VR/ubiq/releases/tag/unity-v1.0.0-pre.7).
+
+
+
+
+---
+
+## Overview
+
+This project explores how multimodal communication (voice + live transcription) can improve communication clarity, engagement, and usability in shared VR environments.
+
+The system combines:
+- real-time voice communication,
+- live speech transcription,
+- spatial chat bubbles,
+- peer-to-peer VR networking,
+- low-latency speech pipelines.
+
+The platform was implemented using Unity, Ubiq-Genie, [Whisper.cpp](https://github.com/ggml-org/whisper.cpp), and Azure Speech Services, and evaluated through a controlled VR user study involving 15 participants.
+
+---
+
+## Key Features
+
+- Real-time multi-user VR communication
+- Spatially synchronized chat bubbles
+- Live speech-to-text transcription
+- Whisper.cpp and Azure Speech integration
+- Peer-to-peer networking architecture
+- Multi-user avatar synchronization
+- Low-latency communication pipelines
+- Audio-only / Bubble-only / Combined communication modes
+- Meta Quest 2 & Quest 3 support
+
+---
+
+## Demo
+
+### VR Environment
+<p align="center">
+<img  alt="Screenshot 2026-05-07 at 3 20 18 PM" src="https://github.com/user-attachments/assets/e03d0c17-8a20-4115-9af4-c665fbc3a9b7"  width="50%" />
+  <br>
+  <em>Real-time multi-user VR environment with synchronized avatar interaction.</em>
+</p>
+
+<p align="center">
+<img  alt="1p-2" src="https://github.com/user-attachments/assets/ce2acb53-3cf0-4553-bca3-8fb3e76c8b5a"  width="50%" />
+  <br>
+  <em> Spatial chat-bubble interface with live speech transcription inside the VR environment.</em>
+</p>
+
+
+### Chat Bubble Communication
+<p align="center">
+<img  alt="1pv-1" src="https://github.com/user-attachments/assets/c8085845-2316-463e-8433-76f1b4ab4049"  width="50%" />
+  <br>
+  <em> Multi-users Ubiq-genie Environment Capture in 1st Person view</em>
+</p>
+
+<p align="center">
+<img  alt="3pv" src="https://github.com/user-attachments/assets/6dba98eb-f955-4882-b8d5-27e334b4a21e"  width="50%" />
+  <br>
+  <em> Multi-users Ubiq-genie Environment Capture in 3rd Person view.</em>
+</p>
+
+
+
+
+### Transcription Pipeline
+The system processes live microphone audio and converts it into spatial chat bubbles inside the VR environment.
+
+```text
+Audio Input
+   ↓
+PushAudioInputStream
+   ↓
+Azure Speech SDK / Whisper.cpp
+   ↓
+Recognized Text Output
+   ↓
+Application Controller
+   ↓
+Network Broadcast
+   ↓
+Unity NetworkContext
+   ↓
+VR Chat Bubble Display
+```
+**Pipeline Summary**
+1. Audio is captured from the VR client and streamed into the transcription service.
+2. Azure Speech SDK or Whisper.cpp converts the audio stream into text.
+3. The Node.js Application Controller captures the transcription output.
+4. The text is broadcast through the Ubiq networking layer.
+5. Unity receives the message and renders it as a spatial chat bubble attached to the speaker avatar.
+---
+
+## Performance Results
+
+| Metric | Result |
+|---|---|
+| Transcription Latency Reduction | 11.7% |
+| Word-level Accuracy | >96% |
+| User Study Participants | 15 |
+| Communication Modes Tested | 3 |
+
+### User Study Findings
+
+The combined multimodal condition (voice + chat bubbles) achieved the highest:
+- engagement,
+- communication effectiveness,
+- usability,
+- user preference.
+
+---
+
+## System Architecture
+
+The platform adopts a modular peer-to-peer architecture inspired by Ubiq-Genie.
+
+```text
+VR Client (Unity)
+        ↓
+Audio Capture
+        ↓
+Ubiq-Genie Service Peer
+        ↓
+Speech Transcription
+(Azure / Whisper.cpp)
+        ↓
+Node.js Controller
+        ↓
+Network Broadcast
+        ↓
+Spatial Chat Bubble Rendering
+```
+
+### Technologies
+
+#### VR & Networking
+- Unity
+- Ubiq
+- Ubiq-Genie
+- Meta Quest 2 / Quest 3
+
+#### Backend & Audio Processing
+- Node.js
+- Python
+- C++
+- Whisper.cpp
+- Azure Speech SDK
+
+#### Languages
+- C#
+- Python
+- C++
+- JavaScript
+
+---
+
+# Setup
 
 ## Initial Setup
 
-These instructions will get you a copy of the project up and running to run the samples and to start building your own applications. Ubiq-Genie supports Windows, macOS, and Linux. Ubiq-Genie has a server-client architecture, which means you may need to run the server on a separate machine from the Unity client.
+Ubiq-Genie uses a server-client architecture.
 
 ### Server (Node.js)
 
-0. Install [Node.js](https://nodejs.org/en/download/) (v20 or later) and [Python](https://www.python.org/downloads/) (v3.10 or later).
+0. Install:
+- [Node.js](https://nodejs.org/en/download/) (v20+)
+- [Python](https://www.python.org/downloads/) (v3.10+)
 
-1. Clone this repository somewhere on your machine (either local or remote).
+1. Clone repository
+
+```bash
+git clone https://github.com/MozhaoZhu/Real-time_multi-user_VR_platform.git
+```
 
 2. Open a terminal in the `Node` folder and run `npm install` to install the dependencies.
 
-3. Install the Python dependencies by navigating to the `Node/services` folder and running `pip install -r requirements.txt`. If you are using a virtual environment, activate it before running the command. Please ensure that you have the correct PyTorch and CUDA versions installed (see the [PyTorch website](https://pytorch.org/get-started/locally/) for more information).
+```bash
+cd Node
+npm install
+```
+
+3. Install the Python dependencies by navigating to the `Node/services` folder and running `pip install -r requirements.txt`. 
+
+```bash
+cd services
+pip install -r requirements.txt
+```
+If you are using a virtual environment, activate it before running the command. Please ensure that you have the correct PyTorch and CUDA versions installed (see the [PyTorch website](https://pytorch.org/get-started/locally/) for more information).
+
+---
 
 ### Client (Unity)
 
-1. Install [Unity](https://unity3d.com/get-unity/download) 2022.3.32f1 or later.
+1. Install [Unity](https://unity3d.com/get-unity/download) 2022.3.32f1+
 
-2. Clone this repository somewhere on your local machine.
+2. Open the Unity project
 
-3. Add the `Unity` folder to Unity Hub and open the project in Unity.
+3. Navigate to Package Manager, click the Ubiq package (com.ucl.ubiq), navigate to the "Samples" tab, and import the "Demo (XRI)" sample. This will add the Unity XR Interaction Toolkit package to the project, as well as some scripts used by the Ubiq-Genie sample applications.
 
-4. Navigate to Package Manager, click the Ubiq package (com.ucl.ubiq), navigate to the "Samples" tab, and import the "Demo (XRI)" sample. This will add the Unity XR Interaction Toolkit package to the project, as well as some scripts used by the Ubiq-Genie sample applications.
+---
 
-> [!NOTE]
-> Read the README file in the corresponding folder in the `Node/apps` folder for further setup instructions. For a list of available samples, see the [Samples](#samples) section below.
+## Whisper.cpp Configuration
 
-## Documentation
+Example runtime configuration:
 
-For more information on how to use Ubiq-Genie, please refer to the README files in the `Node` folder.
+```bash
+stream -m ggml-base.en.bin \
+--step 2000 \
+--length 5000 \
+-t 8 \
+--keep 400 \
+-kc \
+--stdin
+```
 
-## Samples
+---
 
-The `Node/apps` folder contains a number of samples that demonstrate how to use Ubiq-Genie, which each utilize one or more services defined in the `Node/services` folder. For more information on how to use these samples, please refer to the README files in the corresponding folders. Currently, the following collaborative sample applications are available:
+## Repository Structure
 
-- [**Texture Generation**](Node/apps/texture_generation/README.md): generates a texture based on voice-based input and an optional ray to select target objects
-- [**Multi-user Conversational Agent**](Node/apps/conversational_agent/README.md): a conversational agent that can be interacted with by multiple users
-- [**Transcription**](Node/apps/transcription/README.md): transcribes and audio of each user in the room in separate files
+```text
+├── Unity/
+├── Node/
+│   ├── apps/
+│   ├── services/
+├── Documentation/
+├── Assets/
+└── README.md
+```
 
-For a demo video of the samples, please refer to the [Ubiq-Genie demo video](https://youtu.be/cGz0z9BIgQk).
+---
 
-## Support
+## Research Context
 
-For any questions, please use the Discussions tab on GitHub or send a message in the *ubiq-genie* channel in the [Ubiq Discord server](https://discord.gg/cZYzdcxAAB). For bug reports, please use the Issues tab on GitHub.
-# FYP
+This project investigates:
+- multimodal communication in VR,
+- low-latency transcription systems,
+- accessibility in immersive environments,
+- real-time distributed VR systems.
+
+The work was evaluated using quantitative and qualitative user-study analysis across:
+- Presence
+- Effectiveness
+- Usability
+- Engagement
+
+---
+
+## Future Improvements
+
+Potential future work includes:
+- multilingual translation,
+- speaker attribution,
+- emotion-aware interaction,
+- larger Whisper models,
+- scalability improvements.
+
+---
+
+## References
+
+- Ubiq Framework
+- Ubiq-Genie
+- Whisper.cpp
+- Azure Speech Services
+
+---
+
+## Author
+
+**Mozhao Zhu**  
+MEng Computer Science — University College London (UCL)
+
+GitHub: [Mozhao Zhu ](https://github.com/MozhaoZhu)
+LinkedIn: [Mozhao Zhu](http://linkedin.com/in/mozhao-zhu-104a18229)
